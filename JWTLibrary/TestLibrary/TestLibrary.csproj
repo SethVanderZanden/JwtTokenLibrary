@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JWT" Version="8.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="JWTLibrary">
+      <HintPath>..\JWTLibrary\bin\Debug\net6.0\JWTLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

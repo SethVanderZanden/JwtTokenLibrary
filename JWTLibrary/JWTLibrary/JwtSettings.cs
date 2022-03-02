@@ -20,7 +20,7 @@ namespace JWTLibrary
     /// </summary>
     public class JwtSettings
     {
-        private string? Secret { get; set; }
+        public string? Secret { get; set; }
         private const string path = "JwtSecret.txt";
         public int RefreshTokenTTL { get; set; } = 15;
 
@@ -46,9 +46,10 @@ namespace JWTLibrary
                     Console.WriteLine("Creating JwtSecret.txt, HIGHLY RECOMMEND CHANGING SECRET VALUE!");
                     sw.WriteLine("SecretShouldBeChanged");
 
-                    Secret = File.ReadAllText(path);
-                    
+                    sw.Close();
                 }
+
+                Secret = File.ReadAllText(path);
             }
 
             else
