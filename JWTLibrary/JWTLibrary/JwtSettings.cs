@@ -21,8 +21,7 @@ namespace JWTLibrary
     public class JwtSettings
     {
         private string? Secret { get; set; }
-        string path = "JwtSecret.txt";
-
+        private const string path = "JwtSecret.txt";
         public int RefreshTokenTTL { get; set; } = 15;
 
         private IJwtAlgorithm Algorithm;
