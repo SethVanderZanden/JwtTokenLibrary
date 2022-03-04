@@ -28,15 +28,16 @@ namespace JWTLibrary
 
             // skip requests for logging in since they cant have a valid token yet
             if(context.Request.Path == "/api/User/Login") await _next(context);
+            else if(context.Request.Path == "/api/User/Register") await _next(context);
             else
             {
                 // enable buffering so the request doesnt get emptied. 
                 context.Request.EnableBuffering();
                 string token = context.Request.Headers["Authorization"];
 
-                if(token != null)
+                if (token != null)
                 {
-                    if(JwtSettings.VerifyToken(token)) await _next(context);
+                    if (JwtSettings.VerifyToken(token)) await _next(context);
 
                     else
                     {
