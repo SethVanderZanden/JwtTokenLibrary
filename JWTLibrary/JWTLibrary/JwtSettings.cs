@@ -21,7 +21,6 @@ namespace JWTLibrary
     public class JwtSettings
     {
         public string? Secret { get; set; }
-        private const string path = "JwtSecret.txt";
         public int RefreshTokenTTL { get; set; } = 15;
 
         private IJwtAlgorithm Algorithm;
@@ -38,27 +37,7 @@ namespace JWTLibrary
             Provider = new UtcDateTimeProvider();
             Validator = new JwtValidator(Serializer, Provider);
 
-            if (!File.Exists(path))
-            {
-                using (StreamWriter sw = File.CreateText(path))
-                {
-                    // set default text
-                    Console.WriteLine("Creating JwtSecret.txt, HIGHLY RECOMMEND CHANGING SECRET VALUE!");
-                    sw.WriteLine("SecretShouldBeChanged");
-
-                    sw.Close();
-                }
-
-                Secret = File.ReadAllText(path);
-            }
-
-            else
-            {
-                // read in the secret
-                Secret = File.ReadAllText(path);
-            }
-
-            if (Secret == null) throw new Exception("Secret is null please give it a value!");
+            Secret = JwtLibraryFileManagement.GetSecret();
         }
 
         /// <summary>
@@ -173,10 +152,12 @@ namespace JWTLibrary
                 JwtSettings jwtSettings = new JwtSettings();
                 IJwtDecoder decoder = new JwtDecoder(jwtSettings.Serializer, jwtSettings.Validator, jwtSettings.UrlEncoder, jwtSettings.Algorithm);
                 JwtSecurityTokenHandler jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+                string? secret = new JwtSettings().Secret;
+                if (secret == null) throw new Exception("Secret is null");
                 TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(new JwtSettings().Secret)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret)),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     // set clockskew to zero so tokens expire exactly at token expiration time

@@ -11,8 +11,9 @@ namespace TestLibrary
     {
         static void Main(string[] args)
         {
-            JwtSettings settin = new JwtSettings();
-
+            //JwtSettings settin = new JwtSettings();
+            JWTLibrary.JwtLibraryFileManagement.InitializeMiddlewareList();
+            JWTLibrary.JwtLibraryFileManagement.GetSecret();
         }
     }
 }
